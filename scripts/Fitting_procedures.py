@@ -5,7 +5,7 @@ Created on Tue Nov  9 17:32:37 2021
 @author: mmaehring
 """
 
-from iminuit import Minuit #, cost
+from iminuit import Minuit, cost
 import iminuit
 import numpy as np
 from scipy.optimize import curve_fit
