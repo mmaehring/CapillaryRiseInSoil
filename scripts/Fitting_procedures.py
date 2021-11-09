@@ -10,6 +10,8 @@ import iminuit
 import numpy as np
 from scipy.optimize import curve_fit
 
+import pathlib
+import pandas as pd
 
 def model_fitting_iminuit(cost_function, xdata, ydata, data_yerr, initial):
     # https://iminuit.readthedocs.io/en/stable/
@@ -59,14 +61,31 @@ def model_fitting_scipy(model, xdata, ydata, initial):
 
 
 if __name__ == "__main__":
+    DATA_PATH = (pathlib.Path.cwd()).parents[0] / "data"
+    
+    ## load csv file
+    # data_array = pd.read_csv(DATA_PATH)
+    
+    ## Scipy fitting
     
     model = lambda x, a, b: a*np.exp(-b*x**2)
     
-    initial_values = [0, 1] # a_0 = 0, b_0 = 1
+    initial_values = [0.75, 0.75] # a_0 = 0, b_0 = 1
+    
+    xdat = np.linspace(0, 10)
+    ydat = model(xdat, 1, 1) + 0.2*np.random.rand(50)
+    
+    result = model_fitting_scipy(model, 
+                                    xdat, 
+                                    ydat, 
+                                    initial_values
+    )
+    
+    a, b = result[0]
+    diff = np.linalg.norm(ydat - model(xdat, a, b))
     
     
-    
-    
+    ## iminuit fitting
     
     def line(x, α, β):
         return α + x * β
@@ -79,10 +98,5 @@ if __name__ == "__main__":
     initial = [0, 0]
     res = model_fitting_iminuit(line, data_x, data_y, data_yerr, initial)
     
-    
-    
-    
-    
-    print("Hello World")
-    
+    print(res)
     
