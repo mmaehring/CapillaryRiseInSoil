@@ -39,10 +39,14 @@ def find_brightest_area(path_to_image):
 def display_image_as_histogram(x_dat, y_dat, clean=False):
     # Kaestner code pasted (partially)
     nBins = 100 # Here, we select the number of bins in the histograms.
-    H, xedges, nedges = np.histogram2d(x.ravel(), n.ravel(), bins=nBins)
-    nH,nax = np.histogram(n.ravel(),bins=nedges)
-    xH,xax= np.histogram(x.ravel(),bins=xedges)    
+    H, xedges, nedges = np.histogram2d(x_dat.ravel(), y_dat.ravel(), bins=nBins)   # create 2d histogram -> pixel vals for two images. 
+    """
+    I think we feed it one picture for the neutrons and one of x-rays -> 2d hist
+    """
+    nH,nax = np.histogram(y_dat.ravel(),bins=nedges)
+    xH,xax= np.histogram(x_dat.ravel(),bins=xedges)    
     
+    H = flt.median(H,np.ones([3,3]))
     
     return 0
 

@@ -20,3 +20,9 @@ To (locally) reproduce this project, do the following:
 
 This will install all necessary packages for you to be able to run the scripts and
 everything should work out of the box, including correctly finding local paths.
+
+
+##############################################
+################## DATA ######################
+##############################################
+To correctly insert data, add to the DrWatson data path the 02_rawdata from the data set and the setup / protocol excel sheet. 
