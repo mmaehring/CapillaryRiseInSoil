@@ -1,0 +1,46 @@
+fig, ax = plt.subplots(2, 3)
+fig.set_size_inches(16, 12)
+# fig.set_dpi(400)
+fig.subplots_adjust(bottom=0.3, top=0.7, hspace=0)
+
+ax = ax.ravel()
+
+ax[0].imshow(np.transpose(step_wedge_1))
+ax[0].tick_params(
+    axis='y',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    left=False,      # ticks along the bottom edge are off
+    right=False,         # ticks along the top edge are off
+    labelleft=False
+) # labels along the bottom edge are off
+
+ax[0].set_title("0.5-2.5 mm step-wedge slice")
+ax[0].set_xlabel("Depth of sample (px)")
+
+ax[1].imshow(np.transpose(step_wedge_2), interpolation = 'none')
+ax[1].tick_params(axis='y', which='both', left=False, right=False, labelleft=False) 
+ax[1].set_title("3.0-5.0 mm step-wedge slice")
+ax[1].set_xlabel("Depth of sample (px)")
+
+ax[2].imshow(np.transpose(step_wedge_3), interpolation = 'none')
+ax[2].tick_params(axis='y', which='both', left=False, right=False, labelleft=False) 
+ax[2].set_title("3.0-5.0 mm step-wedge slice")
+ax[2].set_xlabel("Depth of sample (px)")
+
+maxima = []
+for (axis, wedge) in zip(ax[3:], [step_wedge_1, step_wedge_2, step_wedge_3]):
+    bin_vals = axis.hist(wedge.ravel(), bins=100)[0];
+    axis.vlines([threshold_otsu(wedge)], ymax=bin_vals.max(), ymin=0, color='cyan', label = "Otsu Threshold")
+    maxima.append(bin_vals.max())
+    
+ax[3].vlines([0], ymax=maxima[0], ymin=0, color='red', label = "Manual Threshhold")
+ax[4].vlines([0], ymax=maxima[1], ymin=0, color='red', label = "Manual Threshhold")
+ax[5].vlines([0], ymax=maxima[2], ymin=0, color='red', label = "Manual Threshhold")
+
+for axis in ax[3:]:
+    axis.legend()
+    axis.grid()
+    
+for (axis, wedge) in zip(ax, [step_wedge_1, step_wedge_2, step_wedge_3]):
+    pcm = axis.pcolormesh(np.transpose(wedge))
+    fig.colorbar(pcm, ax=axis, shrink=0.85)
