@@ -198,6 +198,8 @@ ydata = model(xdata, [1.0 2.0]) + 0.01*randn(length(xdata))
 #Before fitting the data, we also need a initial value of parameters for curve_fit().
 p0 = [0.5, 0.5]
 
+# weighted fit: w = (1 ./ σi).^2 with σ the standard deviation of the i'th value
+
 fit = curve_fit(model, xdata, ydata, p0)
 param = fit.param # equivalent to coef(fit)
 # fit is a composite type (LsqFitResult), with some interesting values:
