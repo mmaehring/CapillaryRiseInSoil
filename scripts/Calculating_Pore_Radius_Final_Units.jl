@@ -66,8 +66,7 @@ function χ_sqr_det(fit, time, height, error)
         return dof, χ², χ²dof #, χ²_fit_calc, χ²_fit_calc/dof
 end
 
-timearray, MH, σMH, AH, σAH = get_data(3);
-
+timearray, MH, σMH, AH, σAH = get_data(4);
 
 p0 = [0.5, 0.05];
 
